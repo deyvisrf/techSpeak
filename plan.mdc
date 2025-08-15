@@ -1,0 +1,559 @@
+Documento de Requisitos do Produto (PRD) — TechSpeak English
+
+Versão: 1.3
+Autor: Gemini
+Data: 13 de Agosto de 2025
+
+1. Visão Geral e Resumo
+
+O TechSpeak English é um aplicativo mobile de aprendizado de inglês projetado especificamente para profissionais da área de tecnologia, como Desenvolvedores de Software e Analistas de QA.
+O foco não é ensinar inglês do zero, mas aprimorar a fluência e a confiança em situações profissionais: entrevistas de emprego e comunicação de tarefas, processos e experiências do dia a dia de trabalho.
+
+2. O Problema
+
+Profissionais de tecnologia em países não-nativos de inglês enfrentam barreiras linguísticas que limitam:
+
+Conquistar vagas internacionais: dificuldade em explicar experiências e soluções com clareza durante entrevistas.
+
+Participar de equipes globais: insegurança para descrever tarefas em daily meetings, code reviews ou discussões técnicas.
+
+Progredir na carreira: falta de fluência no inglês técnico-corporativo reduz chances de alcançar cargos de liderança e visibilidade internacional.
+
+Aplicativos de inglês existentes são genéricos e raramente oferecem feedback instantâneo e contextualizado com foco em tecnologia.
+
+3. A Solução: TechSpeak
+
+O TechSpeak entrega aprendizado prático por meio de trilhas contextuais e um coach de conversação com IA.
+Pilares:
+
+Aprendizado Contextual — Módulos como "Entrevista de Emprego", "Daily Scrum", "Code Review", "Reportando um Bug".
+
+Simulação e Feedback Dinâmico com IA — Análise de fala em tempo real, avaliando conteúdo e entrega (pronúncia, ritmo, entonação) de forma amigável e didática.
+
+Vocabulário Específico — Glossários e exercícios com termos essenciais de tecnologia (ex.: deployment, repository, test case, staging environment).
+
+4. Personas (Público-Alvo)
+
+Persona 1 — Lucas, Desenvolvedor Pleno
+
+Idade: 28 anos
+
+Objetivo: Trabalhar em uma startup dos EUA (remoto).
+
+Frustração: Nervosismo e pronúncia errada de termos técnicos em entrevistas.
+
+Necessidade: Treinar respostas para perguntas-chave e receber feedback instantâneo.
+
+Persona 2 — Ana, QA Sênior
+
+Idade: 32 anos
+
+Objetivo: Liderar equipe de QA no Brasil e Índia.
+
+Frustração: Entonação fraca e insegurança ao comunicar blockers em reuniões.
+
+Necessidade: Falar com clareza e confiança sobre test plans e user stories.
+
+5. Requisitos Funcionais (MVP)
+
+F1: Onboarding Personalizado — Avalia nível de inglês e contexto profissional para criar trilha adaptada.
+
+F2: Trilhas de Aprendizado — Conteúdo segmentado por cenários reais do dia a dia tech.
+
+F3: Lições Interativas com Role-Play de IA — Simulação de diálogos com respostas guiadas.
+
+F4: Coach de Conversação com IA (Core) — Treino de fala em tempo real com análise de pronúncia e entonação.
+
+F5: Painel de Progresso — Visualização clara da evolução e recomendações personalizadas.
+
+6. Requisitos Não-Funcionais
+
+Design e Identidade Visual
+
+Referência: Plataforma Pora
+
+Tema: Light mode principal
+
+Cores: Paleta do Pora para fundo, botões e elementos de destaque
+
+Tipografia: Similar à usada no Pora (limpa e moderna)
+
+Layout: Minimalista, inspirado no site Pora
+
+Usabilidade: Interface intuitiva, com feedback da IA claro e acessível
+
+Desempenho
+
+Resposta da IA < 2 segundos em 95% das sessões
+
+Processamento de áudio rápido e sem travamentos
+
+Plataformas
+
+Mobile (iOS e Android) no lançamento
+
+Versão Web/PWA no roadmap
+
+Privacidade
+
+Processamento anônimo e seguro dos dados de voz
+
+Consentimento explícito do usuário
+
+Pilha Tecnológica
+
+Frontend (Web/PWA): Next.js (App Router)
+ 
+Backend & IA: Python (FastAPI), Node.js, GPT-5
+Decisão de Escopo (MVP): Adiar integração com Supabase; utilizar mocks e persistência temporária (ex.: SQLite/arquivo no backend, armazenamento local no app).
+Integração com Supabase: Planejada para o final (pós-MVP), com migração dos dados provisórios.
+
+7. Diferenciais Competitivos
+
+100% focado em tecnologia (Devs, QAs, PMs, Designers, DevOps)
+
+Feedback em tempo real de pronúncia + conteúdo + entonação
+
+Simulações adaptativas com IA
+
+Glossário vivo que aprende com o uso do usuário
+
+8. Métricas de Sucesso (KPIs)
+
+Engajamento: ≥ 3 sessões semanais com o Coach de Conversação
+
+Retenção: ≥ 60% (D7) e ≥ 40% (D30)
+
+Eficácia: +15% de melhoria em pronúncia após 30 dias
+
+Tempo de Resposta: < 2s para a IA
+
+NPS: ≥ 50 no primeiro trimestre
+
+9. Roadmap Futuro (Pós-MVP)
+
+Novas Trilhas: Code Review, Presenting a Demo, Negotiating Salary
+
+Novos Perfis: PMs, UI/UX, DevOps
+
+Análise de Sentimento e Confiança na fala
+
+Simulador de reunião em grupo com IA
+
+Monetização Freemium: tempo limitado no Coach (free) e acesso ilimitado no Premium
+
+Adicionais:
+- Fluxograma:
+flowchart TD
+    %% ===== INÍCIO =====
+    A[📱 Abrir App] --> B{Checagem de Sessão}
+    B -->|Logado| C[🏠 Home / Dashboard]
+    B -->|Não logado| D[👋 Onboarding]
+    
+    %% ===== ONBOARDING =====
+    D --> D1[🔒 Consentimento de Privacidade de Voz]
+    D1 -->|Aceita| D2[🎤 Permissão de Microfone]
+    D1 -->|Não aceita| D1b[ℹ️ Exibir Motivo & Opções sem Voz] --> D3
+    D2 -->|Concedida| D3[👤 Seleção de Perfil<br/>Dev/QA/PM/Designer]
+    D2 -->|Negada| D2b[⚠️ Orientar habilitar microfone] --> D3
+    D3 --> D4[📊 Teste de Nível<br/>listening/speaking]
+    D4 --> D5[🎯 Definição de Objetivos<br/>Entrevista/Daily/Code Review]
+    D5 --> D6[🛤️ Gerar Trilha Inicial<br/>+ Recomendações]
+    D6 --> C
+    
+    %% ===== DASHBOARD =====
+    C --> E[📚 Trilhas de Aprendizado]
+    C --> F[🤖 Coach de Conversação IA]
+    C --> G[📈 Painel de Progresso]
+    C --> H[📖 Glossário Vivo]
+    C --> I[⚙️ Configurações / Plano]
+    
+    %% ===== TRILHAS =====
+    E --> E1[🎭 Escolher Trilha/Cenário]
+    E1 --> E2[🎬 Lição Interativa<br/>Role-Play com IA]
+    E2 --> E3{⚡ Resposta IA < 2s?}
+    E3 -->|Sim| E4[✅ Feedback Detalhado<br/>Conteúdo + Pronúncia + Entonação]
+    E3 -->|Não| E3a[🔄 Retry/Degradar p/ Texto<br/>+ Aviso de Latência]
+    E4 --> E5[➡️ Próxima Lição ou<br/>Recomendar Coach]
+    E5 --> C
+    
+    %% ===== COACH =====
+    F --> F0{💳 Plano do Usuário}
+    F0 -->|Free| F0a[⏰ Limite Diário<br/>minutos/sessões]
+    F0 -->|Premium| F1[🎯 Escolher Cenário<br/>Entrevista/Daily/Bug Report]
+    F0a --> F1
+    F1 --> F2[🗣️ Conversa de Voz Tempo Real<br/>STT + LLM + TTS]
+    F2 --> F3{⚡ IA respondeu < 2s?}
+    F3 -->|Sim| F4[📊 Feedback Instantâneo<br/>Pronúncia/Ritmo/Tom]
+    F3 -->|Não| F3a[💬 Fallback Texto +<br/>Sugestão de Repetir]
+    F4 --> F5{🔒 Atingiu Limite Free?}
+    F5 -->|Não| F6[📝 Registrar Métricas +<br/>Sugerir Próxima Tarefa]
+    F5 -->|Sim| F5a[💎 Paywall Leve<br/>→ Upgrade Premium]
+    F6 --> C
+    F5a --> I
+    
+    %% ===== PROGRESSO =====
+    G --> G1[📊 Ver Evolução por Habilidade<br/>speaking/listening]
+    G1 --> G2[📈 Comparar Base vs Atual<br/>+% de melhoria]
+    G2 --> G3[🎯 Recomendações Automáticas<br/>Revisão/Prática]
+    G3 --> C
+    
+    %% ===== GLOSSÁRIO =====
+    H --> H1[🔍 Buscar Termos<br/>PR/deploy/rollback...]
+    H1 --> H2[💡 Exemplos Contextuais +<br/>Pronúncia Guiada]
+    H2 --> H3[⭐ Adicionar a Favoritos<br/>Revisão Spaced]
+    H3 --> C
+    
+    %% ===== CONFIG / PLANO =====
+    I --> I1[⏱️ Preferências de Estudo<br/>tempo diário, foco]
+    I --> I2[💳 Gerenciar Plano<br/>Free/Premium]
+    I2 --> I2a{💎 Deseja Upgrade?}
+    I2a -->|Sim| I2b[🛒 Checkout → Confirmar]
+    I2a -->|Não| C
+    I2b --> C
+    I --> I3[🔐 Privacidade & Dados<br/>opt-in/out de uso de voz]
+    I3 --> C
+    I1 --> C
+    
+    %% ===== ERROS & EDGE CASES =====
+    subgraph ErrorHandling [" 🚨 Tratamento de Erros "]
+        X1[📡 Sem Conexão] --> X1a[📱 Modo Offline Limitado<br/>Glossário/Teoria]
+        X2[🎤 STT Falhou] --> X2a[🔧 Orientar Ambiente +<br/>Repetir + Alternar p/ Texto]
+        X3[⏱️ Timeout IA] --> X3a[🔄 Retry Exponencial +<br/>Mensagem Clara]
+        X4[🚫 Microfone Bloqueado] --> X4a[📋 Guia Passo a Passo<br/>p/ Permitir]
+    end
+    
+    %% Conexões de erro
+    C -.->|Sem internet| X1
+    F2 -.->|Erro de áudio| X2
+    E2 -.->|Timeout| X3
+    D2 -.->|Sem permissão| X4
+    
+    %% Estilização
+    classDef startNode fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef mainFeature fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef decision fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    classDef error fill:#ffebee,stroke:#c62828,stroke-width:2px
+    classDef premium fill:#f1f8e9,stroke:#33691e,stroke-width:2px
+    
+    class A startNode
+    class C,E,F,G,H,I mainFeature
+    class B,E3,F0,F3,F5,I2a decision
+    class X1,X2,X3,X4,X1a,X2a,X3a,X4a error
+    class F5a,I2b premium
+    
+- Schema prisma:
+// -------------------------------
+// Prisma Schema — TechSpeak English (MVP)
+// Banco: PostgreSQL
+// -------------------------------
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// -------- Enums
+enum UserRole {
+  DEV
+  QA
+  PM
+  UIUX
+  DEVOPS
+  OTHER
+}
+
+enum CEFRLevel {
+  A1
+  A2
+  B1
+  B2
+  C1
+  C2
+  UNKNOWN
+}
+
+enum Goal {
+  INTERVIEW
+  DAILY
+  CODE_REVIEW
+  BUG_REPORT
+  PRESENT_DEMO
+  NEGOTIATE_SALARY
+}
+
+enum PlanType {
+  FREE
+  PREMIUM
+}
+
+enum PlanStatus {
+  ACTIVE
+  INACTIVE
+  CANCELED
+  PAST_DUE
+}
+
+enum LessonType {
+  THEORY        // leitura/teoria
+  QUIZ          // checagem rápida
+  ROLEPLAY      // diálogo guiado por IA
+}
+
+enum ScenarioType {
+  INTERVIEW
+  DAILY
+  BUG_REPORT
+  CODE_REVIEW
+}
+
+enum SkillType {
+  SPEAKING
+  LISTENING
+  PRONUNCIATION
+  RHYTHM
+  INTONATION
+  CONTENT
+}
+
+enum KPIEventType {
+  IA_RESPONSE
+  COACH_SESSION_START
+  COACH_SESSION_END
+  LESSON_COMPLETED
+  TRACK_COMPLETED
+  GLOSSARY_PRACTICE
+  PAYWALL_SHOWN
+  UPGRADE_CLICK
+}
+
+// -------- Usuário, Perfil, Consentimento, Assinatura
+model User {
+  id            String          @id @default(cuid())
+  email         String          @unique
+  name          String?
+  image         String?
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+
+  profile       Profile?
+  consent       Consent?
+  subscription  Subscription?
+  recommendations Recommendation[]
+  coachSessions CoachSession[]
+  progresses    Progress[]
+  kpiEvents     KPIEvent[]
+  favorites     FavoriteTerm[]
+  termPractices TermPractice[]
+}
+
+model Profile {
+  id             String     @id @default(cuid())
+  userId         String     @unique
+  role           UserRole   @default(OTHER)
+  level          CEFRLevel  @default(UNKNOWN)
+  goals          Goal[]     // múltiplos objetivos (entrevista, daily, etc.)
+  locale         String?    // pt-BR, en-US...
+  minutesPerDay  Int?       // preferência de estudo
+  timezone       String?    // ex: "America/Sao_Paulo"
+
+  // resultados do onboarding / teste inicial
+  onboardingScore       Int?        // score geral
+  onboardingNotes       String?
+  onboardingRaw         Json?       // payload detalhado (itens, acertos)
+
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Consent {
+  id                 String   @id @default(cuid())
+  userId             String   @unique
+  voiceProcessing    Boolean  @default(false) // opt-in para uso/análise de voz
+  marketing          Boolean  @default(false)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Subscription {
+  id                 String     @id @default(cuid())
+  userId             String     @unique
+  plan               PlanType   @default(FREE)
+  status             PlanStatus @default(ACTIVE)
+  currentPeriodEnd   DateTime?
+  provider           String?    // stripe/paddle/etc.
+  providerCustomerId String?
+  providerSubId      String?
+
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime   @updatedAt
+
+  user               User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// -------- Trilhas, Lições e Role-Play
+model Track {
+  id          String     @id @default(cuid())
+  title       String
+  description String?
+  recommendedRoles UserRole[] // para quem essa trilha é mais relevante
+  level       CEFRLevel? // nível sugerido
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  lessons     Lesson[]
+
+  @@index([level])
+}
+
+model Lesson {
+  id          String      @id @default(cuid())
+  trackId     String
+  order       Int         @default(0)
+  title       String
+  type        LessonType  @default(THEORY)
+  content     Json?       // conteúdo estruturado/rich text
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  track       Track       @relation(fields: [trackId], references: [id], onDelete: Cascade)
+  roleplay    RolePlayScenario?
+
+  @@index([trackId, order])
+}
+
+model RolePlayScenario {
+  id         String       @id @default(cuid())
+  lessonId   String       @unique
+  scenario   ScenarioType
+  prompts    Json?        // scripts, intents, variações
+  rubric     Json?        // critérios de avaliação
+
+  lesson     Lesson       @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+}
+
+// -------- Coach de Conversação + Feedback
+model CoachSession {
+  id             String       @id @default(cuid())
+  userId         String
+  scenario       ScenarioType
+  startedAt      DateTime     @default(now())
+  endedAt        DateTime?
+  durationSec    Int?         // derivado
+  sttProvider    String?      // ex: "openai-realtime"
+  ttsProvider    String?
+  llmModel       String?      // ex: "gpt-5-realtime"
+  avgLatencyMs   Int?         // latência média de resposta da IA
+  transcript     String?      // transcrição “final” limpa
+  transcriptRaw  Json?        // resultados STT por turno
+  contextMeta    Json?        // device, ruído, rede, etc.
+
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  feedbacks      Feedback[]   // múltiplos snapshots por sessão
+
+  @@index([userId, scenario, startedAt])
+}
+
+model Feedback {
+  id              String     @id @default(cuid())
+  coachSessionId  String
+  createdAt       DateTime   @default(now())
+
+  // Scores 0-100
+  pronunciation   Int?
+  rhythm          Int?
+  intonation      Int?
+  content         Int?
+
+  // Detalhes por trecho/palavra (IPA, erros, recomendações)
+  details         Json?
+  notes           String?
+
+  coachSession    CoachSession @relation(fields: [coachSessionId], references: [id], onDelete: Cascade)
+
+  @@index([coachSessionId, createdAt])
+}
+
+// -------- Progresso & Recomendações
+model Progress {
+  id          String     @id @default(cuid())
+  userId      String
+  skill       SkillType
+  score       Int        // score atual da habilidade
+  delta       Int?       // variação recente
+  window      String?    // ex: "7d", "30d"
+  createdAt   DateTime   @default(now())
+
+  user        User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, skill, createdAt])
+}
+
+model Recommendation {
+  id          String   @id @default(cuid())
+  userId      String
+  text        String   // “Faça 10min no Coach focando em entonação no cenário Daily…”
+  targetLessonId String?
+  createdAt   DateTime @default(now())
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  targetLesson Lesson? @relation(fields: [targetLessonId], references: [id], onDelete: SetNull)
+
+  @@index([userId, createdAt])
+}
+
+// -------- Glossário & Prática espaçada
+model GlossaryTerm {
+  id          String   @id @default(cuid())
+  term        String   @unique
+  category    String?  // ex: "process", "git", "testing"
+  ipa         String?  // pronúncia
+  definition  String?
+  examples    Json?    // frases de uso
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model FavoriteTerm {
+  id          String   @id @default(cuid())
+  userId      String
+  termId      String
+  createdAt   DateTime @default(now())
+
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  term        GlossaryTerm @relation(fields: [termId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, termId])
+  @@index([userId])
+}
+
+model TermPractice {
+  id          String   @id @default(cuid())
+  userId      String
+  termId      String
+  attempts    Int      @default(0)
+  lastScore   Int?
+  nextReviewAt DateTime?
+  history     Json?    // registros de prática
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user        User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  term        GlossaryTerm @relation(fields: [termId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, termId])
+  @@index([userId, nextReviewAt])
+}
+
+// -------- KPIs / Telemetria (para métricas do PRD)
+model KPIEvent {
+  id          String       @id @default(cuid())
+  userId      String?
+  type        KPIEventType
+  createdAt   DateTime     @default(now())
+  payload     Json?        // latências, erros, device, rota
+  se
