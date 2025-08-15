@@ -19,5 +19,47 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  /* Mobile optimizations */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Prevent zoom on input focus (iOS) */
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Mobile touch improvements */
+@media (max-width: 768px) {
+  /* Improve touch targets */
+  button, a, [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Better scrolling on iOS */
+  * {
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Prevent horizontal scroll */
+  html, body {
+    overflow-x: hidden;
+  }
+  
+  /* Better input experience on mobile */
+  input, textarea, select {
+    font-size: 16px; /* Prevents zoom on iOS */
+    border-radius: 0; /* Prevents iOS styling */
+    -webkit-appearance: none;
+  }
+}
+
+/* Focus states for accessibility */
+@media (prefers-reduced-motion: no-preference) {
+  button:focus-visible,
+  a:focus-visible,
+  [role="button"]:focus-visible {
+    outline: 2px solid #9333ea;
+    outline-offset: 2px;
+    transition: outline 0.2s ease;
+  }
 }
 

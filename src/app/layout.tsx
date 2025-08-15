@@ -48,15 +48,24 @@ export default function RootLayout({
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <header className="border-b border-black/10">
-          <nav className="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between">
-            <Link href="/" className="font-semibold">TechSpeak</Link>
-            <div className="flex gap-4 text-sm">
-              <Link href="/onboarding" className="hover:underline">Onboarding</Link>
-              <Link href="/dashboard" className="hover:underline">Dashboard</Link>
-              <Link href="/tracks" className="hover:underline">Trilhas</Link>
-              <Link href="/glossary" className="hover:underline">Glossário</Link>
-              <Link href="/coach" className="hover:underline">Coach</Link>
-              <Link href="/progress" className="hover:underline">Progresso</Link>
+          <nav className="mx-auto max-w-6xl px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between">
+            <Link href="/" className="font-semibold text-lg">TechSpeak</Link>
+            
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex gap-4 text-sm">
+              <Link href="/onboarding" className="hover:underline px-2 py-1">Onboarding</Link>
+              <Link href="/dashboard" className="hover:underline px-2 py-1">Dashboard</Link>
+              <Link href="/tracks" className="hover:underline px-2 py-1">Trilhas</Link>
+              <Link href="/glossary" className="hover:underline px-2 py-1">Glossário</Link>
+              <Link href="/coach" className="hover:underline px-2 py-1">Coach</Link>
+              <Link href="/progress" className="hover:underline px-2 py-1">Progresso</Link>
+            </div>
+            
+            {/* Mobile Navigation - Simple dropdown or hamburger can be added later */}
+            <div className="md:hidden">
+              <Link href="/dashboard" className="text-sm bg-purple-600 text-white px-3 py-2 rounded-full">
+                Dashboard
+              </Link>
             </div>
           </nav>
         </header>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/Button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 
@@ -13,6 +13,8 @@ export default function LevelTest({ onComplete, onSkip }: LevelTestProps) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<string[]>([]);
   const [isListening, setIsListening] = useState(false);
+  const [audioPlaying, setAudioPlaying] = useState(false);
+  const [canAnswer, setCanAnswer] = useState(false);
 
   const questions = [
     {
@@ -49,6 +51,16 @@ export default function LevelTest({ onComplete, onSkip }: LevelTestProps) {
 
   const currentQ = questions[currentQuestion];
 
+  // Reset audio state when question changes
+  useEffect(() => {
+    setAudioPlaying(false);
+    setCanAnswer(currentQ.type !== "listening"); // Allow immediate answer for non-listening questions
+    // Stop any playing audio when question changes
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+    }
+  }, [currentQuestion, currentQ.type]);
+
   const handleAnswer = (answerIndex: number) => {
     const newAnswers = [...answers, answerIndex.toString()];
     setAnswers(newAnswers);
@@ -70,6 +82,38 @@ export default function LevelTest({ onComplete, onSkip }: LevelTestProps) {
     }
   };
 
+  const playAudio = () => {
+    if (!('speechSynthesis' in window)) {
+      alert('Text-to-Speech não é suportado neste navegador. Por favor, leia o texto abaixo.');
+      setCanAnswer(true);
+      return;
+    }
+
+    setAudioPlaying(true);
+    setCanAnswer(false);
+    
+    const utterance = new SpeechSynthesisUtterance(currentQ.audio);
+    utterance.lang = 'en-US';
+    utterance.rate = 0.8; // Um pouco mais devagar para teste
+    utterance.pitch = 1;
+    utterance.volume = 0.9;
+    
+    utterance.onend = () => {
+      setAudioPlaying(false);
+      setCanAnswer(true);
+    };
+    
+    utterance.onerror = () => {
+      setAudioPlaying(false);
+      setCanAnswer(true);
+      alert('Erro ao reproduzir áudio. Por favor, leia o texto abaixo.');
+    };
+    
+    // Parar qualquer síntese anterior
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(utterance);
+  };
+
   const startSpeakingTest = () => {
     setIsListening(true);
     // Simulate recording for 30 seconds
@@ -80,7 +124,7 @@ export default function LevelTest({ onComplete, onSkip }: LevelTestProps) {
   };
 
   return (
-    <div className="max-w-2xl mx-auto">
+    <div className="max-w-2xl mx-auto px-4 sm:px-0">
       <Card>
         <CardHeader>
           <CardTitle>
@@ -104,21 +148,57 @@ export default function LevelTest({ onComplete, onSkip }: LevelTestProps) {
             {currentQ.type === "listening" && (
               <div className="space-y-4">
                 <div className="bg-blue-50 p-4 rounded-lg border">
-                  <p className="text-sm text-blue-800 mb-2">🔊 Audio:</p>
-                  <p className="font-medium">&ldquo;{currentQ.audio}&rdquo;</p>
-                </div>
-                <div className="space-y-2">
-                  {currentQ.options.map((option, index) => (
-                    <Button
-                      key={index}
-                      variant="outline"
-                      className="w-full text-left justify-start h-auto p-4"
-                      onClick={() => handleAnswer(index)}
+                  <p className="text-sm text-blue-800 mb-3">🔊 Clique para ouvir o áudio:</p>
+                  <div className="flex items-center gap-4">
+                    <Button 
+                      onClick={playAudio}
+                      disabled={audioPlaying}
+                      variant={audioPlaying ? "ghost" : "default"}
+                      size="lg"
+                      className="w-full sm:w-auto min-h-[48px]"
                     >
-                      {String.fromCharCode(65 + index)}. {option}
+                      {audioPlaying ? "🔊 Reproduzindo..." : "▶️ Tocar Áudio"}
                     </Button>
-                  ))}
+                    {audioPlaying && (
+                      <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce"></div>
+                        <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce delay-100"></div>
+                        <div className="w-2 h-2 bg-blue-500 rounded-full animate-bounce delay-200"></div>
+                      </div>
+                    )}
+                  </div>
+                  <p className="text-xs text-blue-600 mt-2">
+                    Você pode tocar o áudio quantas vezes quiser
+                  </p>
                 </div>
+                
+                {canAnswer && (
+                  <div className="space-y-2">
+                    <p className="text-sm font-medium text-gray-700 mb-3">
+                      Agora escolha a resposta correta:
+                    </p>
+                    {currentQ.options.map((option, index) => (
+                      <Button
+                        key={index}
+                        variant="outline"
+                        className="w-full text-left justify-start h-auto p-3 sm:p-4 hover:bg-blue-50 touch-manipulation min-h-[56px]"
+                        onClick={() => handleAnswer(index)}
+                      >
+                        <span className="text-sm sm:text-base">
+                          {String.fromCharCode(65 + index)}. {option}
+                        </span>
+                      </Button>
+                    ))}
+                  </div>
+                )}
+                
+                {!canAnswer && !audioPlaying && (
+                  <div className="text-center p-6 bg-gray-50 rounded-lg">
+                    <p className="text-gray-600">
+                      👆 Clique no botão acima para ouvir o áudio primeiro
+                    </p>
+                  </div>
+                )}
               </div>
             )}
 
