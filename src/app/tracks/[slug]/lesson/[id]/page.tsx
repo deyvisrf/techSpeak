@@ -8,7 +8,7 @@ import { logKPI } from "@/lib/kpi";
 
 type Props = { params: Promise<{ slug: string; id: string }> };
 
-export default function LessonPage({ params }: Props) {
+export default function LessonPage({ }: Props) {
   // In client components we can't await params. Read from URL instead to avoid the async warning.
   const url = new URL(globalThis.location.href);
   const slug = url.pathname.split("/")[2];

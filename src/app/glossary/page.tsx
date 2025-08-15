@@ -33,7 +33,11 @@ function useFavorites() {
   };
   const toggle = (id: string) => {
     const s = new Set(ids);
-    s.has(id) ? s.delete(id) : s.add(id);
+    if (s.has(id)) {
+      s.delete(id);
+    } else {
+      s.add(id);
+    }
     save(Array.from(s));
   };
   return { ids, toggle };

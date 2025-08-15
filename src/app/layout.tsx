@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -48,14 +49,14 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <header className="border-b border-black/10">
           <nav className="mx-auto max-w-6xl px-6 py-4 flex items-center justify-between">
-            <a href="/" className="font-semibold">TechSpeak</a>
+            <Link href="/" className="font-semibold">TechSpeak</Link>
             <div className="flex gap-4 text-sm">
-              <a href="/onboarding" className="hover:underline">Onboarding</a>
-              <a href="/dashboard" className="hover:underline">Dashboard</a>
-              <a href="/tracks" className="hover:underline">Trilhas</a>
-              <a href="/glossary" className="hover:underline">Glossário</a>
-              <a href="/coach" className="hover:underline">Coach</a>
-              <a href="/progress" className="hover:underline">Progresso</a>
+              <Link href="/onboarding" className="hover:underline">Onboarding</Link>
+              <Link href="/dashboard" className="hover:underline">Dashboard</Link>
+              <Link href="/tracks" className="hover:underline">Trilhas</Link>
+              <Link href="/glossary" className="hover:underline">Glossário</Link>
+              <Link href="/coach" className="hover:underline">Coach</Link>
+              <Link href="/progress" className="hover:underline">Progresso</Link>
             </div>
           </nav>
         </header>
@@ -76,12 +77,12 @@ export default function RootLayout({
                     Junte-se a milhares de profissionais que já melhoraram sua comunicação através da IA conversacional.
                   </p>
                   <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                    <a href="/onboarding" className="inline-flex items-center justify-center rounded-full bg-purple-600 text-white hover:bg-purple-700 transition-colors h-12 px-8 font-semibold">
+                    <Link href="/onboarding" className="inline-flex items-center justify-center rounded-full bg-purple-600 text-white hover:bg-purple-700 transition-colors h-12 px-8 font-semibold">
                       Começar Gratuitamente
-                    </a>
-                    <a href="/tracks" className="inline-flex items-center justify-center rounded-full border border-purple-600 text-purple-600 hover:bg-purple-50 transition-colors h-12 px-8 font-semibold">
+                    </Link>
+                    <Link href="/tracks" className="inline-flex items-center justify-center rounded-full border border-purple-600 text-purple-600 hover:bg-purple-50 transition-colors h-12 px-8 font-semibold">
                       Ver Trilhas
-                    </a>
+                    </Link>
                   </div>
                 </div>
               </div>

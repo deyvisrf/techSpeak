@@ -53,8 +53,8 @@ export class LocalDAL implements DAL {
     const key = this.metricsKey(userId);
     try {
       const raw = localStorage.getItem(key);
-      const m = raw ? JSON.parse(raw) as any : { coachSessions: 0 };
-      m.coachSessions = (m.coachSessions ?? 0) + 1;
+      const m = raw ? JSON.parse(raw) as Record<string, unknown> : { coachSessions: 0 };
+      m.coachSessions = ((m.coachSessions as number) ?? 0) + 1;
       m.lastCoachAt = new Date().toISOString();
       if (scenario) m.lastScenario = scenario;
       if (avgLatencyMs != null) m.lastLatencyMs = avgLatencyMs;

@@ -14,7 +14,7 @@ type OnboardingState = {
   level: CEFRLevel;
   goals: Goal[];
   levelTestCompleted: boolean;
-  testResults?: any;
+  testResults?: Record<string, unknown>;
 };
 
 const STORAGE_KEY = "techspeak.onboarding";
@@ -72,7 +72,7 @@ export default function OnboardingFlow() {
       // stop tracks to free device after permission
       stream.getTracks().forEach((t) => t.stop());
       setState((s) => ({ ...s, micGranted: true }));
-    } catch (err) {
+    } catch {
       setMicError("Não foi possível acessar o microfone. Verifique as permissões do navegador.");
       setState((s) => ({ ...s, micGranted: false }));
     }

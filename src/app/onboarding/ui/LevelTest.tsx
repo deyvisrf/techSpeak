@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/Button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 
 interface LevelTestProps {
-  onComplete: (level: string, testResults: any) => void;
+  onComplete: (level: string, testResults: Record<string, unknown>) => void;
   onSkip: () => void;
 }
 
@@ -105,7 +105,7 @@ export default function LevelTest({ onComplete, onSkip }: LevelTestProps) {
               <div className="space-y-4">
                 <div className="bg-blue-50 p-4 rounded-lg border">
                   <p className="text-sm text-blue-800 mb-2">🔊 Audio:</p>
-                  <p className="font-medium">"{currentQ.audio}"</p>
+                  <p className="font-medium">&ldquo;{currentQ.audio}&rdquo;</p>
                 </div>
                 <div className="space-y-2">
                   {currentQ.options.map((option, index) => (

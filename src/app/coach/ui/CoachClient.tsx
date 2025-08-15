@@ -4,6 +4,15 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { incCoachSession } from "@/lib/metrics";
 import { logKPI } from "@/lib/kpi";
 
+// Type declarations for Web Speech API
+declare global {
+  interface Window {
+    SpeechRecognition?: any;
+    webkitSpeechRecognition?: any;
+    webkitAudioContext?: any;
+  }
+}
+
 type Scenario =
   | "INTERVIEW"
   | "DAILY"
@@ -47,7 +56,12 @@ export default function CoachClient() {
   const [latencyMs, setLatencyMs] = useState<number | null>(null);
 
   useEffect(() => {
-    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    const SpeechRecognition = (window as Window & typeof globalThis & { 
+      SpeechRecognition?: typeof window.SpeechRecognition; 
+      webkitSpeechRecognition?: typeof window.SpeechRecognition 
+    }).SpeechRecognition || (window as Window & typeof globalThis & { 
+      webkitSpeechRecognition?: typeof window.SpeechRecognition 
+    }).webkitSpeechRecognition;
     if (SpeechRecognition) {
       setSttSupported(true);
       const rec = new SpeechRecognition();
@@ -86,14 +100,16 @@ export default function CoachClient() {
       };
       recognitionRef.current = rec;
     }
-  }, [isRecording]);
+  }, [isRecording, ttsEnabled]);
 
   const start = useCallback(async () => {
     setError(null);
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       mediaStreamRef.current = stream;
-      const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const ctx = new (window.AudioContext || (window as Window & typeof globalThis & { 
+        webkitAudioContext?: typeof window.AudioContext 
+      }).webkitAudioContext)();
       audioCtxRef.current = ctx;
       const source = ctx.createMediaStreamSource(stream);
       const analyser = ctx.createAnalyser();
@@ -125,11 +141,11 @@ export default function CoachClient() {
           recognitionRef.current.start();
         } catch {}
       }
-    } catch (err) {
+    } catch {
       setError("Falha ao acessar microfone. Verifique permissões.");
       stop();
     }
-  }, []);
+  }, [scenario]);
 
   const stop = useCallback(() => {
     if (rafRef.current) cancelAnimationFrame(rafRef.current);
@@ -143,13 +159,15 @@ export default function CoachClient() {
       mediaStreamRef.current = null;
     }
     // parar STT
-    try { recognitionRef.current && recognitionRef.current.stop(); } catch {}
+    if (recognitionRef.current) {
+      try { recognitionRef.current.stop(); } catch {}
+    }
     setIsRecording(false);
     setVolume(0);
     // contabiliza sessão se houve captura iniciada
     incCoachSession();
     logKPI("COACH_SESSION_END", { scenario, latencyMs });
-  }, []);
+  }, [scenario, latencyMs]);
 
   useEffect(() => () => stop(), [stop]);
 

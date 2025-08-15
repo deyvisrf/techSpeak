@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/Button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/Card";
 
@@ -14,8 +14,8 @@ interface Message {
 // Type declarations for Web APIs
 declare global {
   interface Window {
-    SpeechRecognition: any;
-    webkitSpeechRecognition: any;
+    SpeechRecognition?: any;
+    webkitSpeechRecognition?: any;
   }
 }
 
@@ -78,7 +78,7 @@ export default function CoachRealtime() {
     };
   }, []);
 
-  const simulateAIResponse = async (userInput: string) => {
+  const simulateAIResponse = useCallback(async (userInput: string) => {
     // Simulate processing delay
     await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 1000));
 
@@ -125,7 +125,7 @@ export default function CoachRealtime() {
       utterance.volume = 0.8;
       speechSynthesis.speak(utterance);
     }
-  };
+  }, [isTTSEnabled]);
 
   // Simulated pronunciation analysis
   const analyzeInput = (input: string) => {
