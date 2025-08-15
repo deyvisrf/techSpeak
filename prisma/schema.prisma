@@ -1,0 +1,96 @@
+// Prisma schema (MVP - SQLite). Pós-MVP: mudar provider para postgresql e apontar DATABASE_URL.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ---- Usuário / Perfil (simplificado para MVP)
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  profile   Profile?
+}
+
+model Profile {
+  id            String  @id @default(cuid())
+  userId        String  @unique
+  role          String?
+  level         String?
+  goals         String? // CSV de objetivos para MVP
+
+  user          User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// ---- Trilhas / Lições
+model Track {
+  id          String  @id @default(cuid())
+  slug        String  @unique
+  title       String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  lessons     Lesson[]
+}
+
+model Lesson {
+  id        String  @id @default(cuid())
+  trackId   String
+  order     Int
+  title     String
+  type      String // THEORY | QUIZ | ROLEPLAY
+  content   String?
+  scenario  String?
+
+  track     Track   @relation(fields: [trackId], references: [id], onDelete: Cascade)
+}
+
+// ---- Sessões do Coach e feedback simplificado
+model CoachSession {
+  id           String   @id @default(cuid())
+  userId       String?
+  scenario     String?
+  startedAt    DateTime @default(now())
+  endedAt      DateTime?
+  avgLatencyMs Int?
+}
+
+// ---- Progresso agregado (ex.: lições concluídas)
+model Progress {
+  id          String   @id @default(cuid())
+  userId      String?
+  lessonId    String   // Full lesson ID (trackSlug_lessonId)
+  completed   Boolean  @default(true)
+  completedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+
+  @@unique([userId, lessonId])
+}
+
+// ---- Glossário e favoritos
+model GlossaryTerm {
+  id         String   @id @default(cuid())
+  term       String   @unique
+  ipa        String?
+  definition String?
+  examples   String?
+}
+
+model FavoriteTerm {
+  id     String @id @default(cuid())
+  userId String?
+  termId String
+
+  @@unique([userId, termId])
+}
+
+
